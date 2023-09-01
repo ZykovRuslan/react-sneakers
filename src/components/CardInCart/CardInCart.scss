@@ -1,0 +1,52 @@
+.cardInCart {
+  display: flex;
+  align-items: center;
+  border: 1px solid #f3f3f3;
+  border-radius: 20px;
+  padding: 20px 20px 29px 20px;
+
+  &:hover {
+    box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.1);
+    transition: 0.5s;
+    transform: translateY(-5px);
+  }
+
+  &:not(:hover) {
+    transition: 0.5s;
+  }
+
+  &__button-like {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+  }
+
+  &__photo {
+    width: 70px;
+    height: 70px;
+    padding-right: 21px;
+  }
+
+  &__title {
+    margin: 0;
+    padding-bottom: 14px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+  }
+
+  &__align {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  &__price-product {
+    margin: 0;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+  }
+}
