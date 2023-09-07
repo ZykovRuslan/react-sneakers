@@ -1,103 +1,140 @@
-import React from 'react';
-import search from './image/search.svg';
-import Card from './components/Card/Card';
-import Header from './components/Header';
-import Drawer from './components/Drawer/Drawer';
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import axios from 'axios'
+import Home from './components/Page/Home/Home'
+import Favorite from './components/Page/Favorite/Favorite'
 
+export const AppContext = React.createContext({})
 
 function App() {
-  const [products, setProducts] = React.useState([]);
-  const [cartProducts, setCartProducts] = React.useState([]);
-  const [cartOpened, setCartOpened] = React.useState(false);
-  // const [filter, setFilter] = React.useState([]);
+  const [products, setProducts] = React.useState([])
+  const [cartProducts, setCartProducts] = React.useState([])
+  const [cartOpened, setCartOpened] = React.useState(false)
+  const [searchText, setSearchText] = React.useState('')
+  const [favoriteCards, setFavoriteCards] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(true)
 
-  const handleAddToCart = (obj) => {
-    if (cartProducts.find(item => item.name === obj.name)) return;
-    setCartProducts(prev => [...prev, obj])
+  React.useEffect(() => {
+    //! сделать  try catch promise.all
+    async function fetchData() {
+      const cartResponse = await axios.get('https://64ef20d5219b3e2873c3fd48.mockapi.io/cart')
+      const favoritesResponse = await axios.get(
+        'https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite',
+      )
+      const productsResponse = await axios.get(
+        'https://64ef20d5219b3e2873c3fd48.mockapi.io/sneakers',
+      )
+
+      setIsLoading(false)
+      setCartProducts(cartResponse.data)
+      setFavoriteCards(favoritesResponse.data)
+      setProducts(productsResponse.data)
+    }
+
+    fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleAddToCart = async (obj) => {
+    try {
+      const { data } = await axios.post('https://64ef20d5219b3e2873c3fd48.mockapi.io/cart', obj)
+      setCartProducts((prev) => [...prev, data])
+    } catch {
+      alert('Не удалось добавить в корзину')
+    }
   }
 
   const handleDeleteFromCart = (obj) => {
-    const updatedCart = cartProducts.filter(item => item.name !== obj.name);
-    setCartProducts(updatedCart);
-  }; 
-
-  const handleCalculateTheAmount = () => {
-    return cartProducts.reduce((sum, item) => sum + item.price, 0); 
+    try {
+      axios.delete(`https://64ef20d5219b3e2873c3fd48.mockapi.io/cart/${obj.mockApiId}`)
+      const updatedCart = cartProducts.filter((item) => item.mockApiId !== obj.mockApiId)
+      setCartProducts(updatedCart)
+    } catch {
+      alert('Не удалось удалить из корзины')
+    }
   }
 
-  console.log(cartProducts) //! контроль за корзиной товаров
+  const handleAddFavoriteCard = async (obj) => {
+    try {
+      const { data } = await axios.post('https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite', obj)
+      setFavoriteCards((prev) => [...prev, data])
+    } catch {
+      alert('Не удалось добавить в закладки')
+    }
+  }
 
-  // const filterProducts = (searchValue) => {
-  //   console.log(searchValue)
-  //   const filteredProducts = products.filter(item => item.name.includes(searchValue));
-  //   setFilter(filteredProducts);
-  //   console.log('filter', filter)
-  // }
+  const handleDeleteFavoriteCard = (obj) => {
+    axios.delete(`https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite/${obj.mockApiId}`)
+    const updatedFavorite = favoriteCards.filter((item) => item.mockApiId !== obj.mockApiId)
+    setFavoriteCards(updatedFavorite)
+  }
 
-  // const searchSubmit = (evt) => {
-  //   evt.preventDefault();
-  //   filterProducts();
-  // }
+  const handleCalculateTheAmount = () => {
+    return cartProducts.reduce((sum, item) => sum + item.price, 0)
+  }
 
-  React.useEffect(() => {
-    fetch('https://64ef20d5219b3e2873c3fd48.mockapi.io/sneakers')
-    .then(res => {
-      return res.json()
-    })
-    .then(json => {
-      setProducts(json)
-    }) 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const handleChangeSearchInput = (event) => {
+    setSearchText(event.target.value)
+  }
+
+  const handleDeleteSearchText = (event) => {
+    event.preventDefault()
+    setSearchText('')
+  }
 
   return (
-    <div className='page'>
-      <Drawer 
-        cartOpened={cartOpened} 
-        onClickCloseCart={() => setCartOpened(false)} 
-        cartProducts={cartProducts} 
-        amountProducts={handleCalculateTheAmount}
-        onMinus={(obj) => handleDeleteFromCart(obj)}
-      />
-      <Header 
-        onClickOpenCart={() => setCartOpened(true)} 
-        amountProducts={handleCalculateTheAmount}
-      />
-      <main className='content'>
-        <div className='navigation'>
-          <h1 className='navigation__title'>Все кроссовки</h1>
-          <form className='navigation__search'>
-            <img className='navigation__search-img' src={search} alt='поиск'></img>
-            <input 
-              type='text'
-              name='search'
-              placeholder='Поиск...' 
-              // value={}
-              aria-label='Поиск кроссовок'></input>
-          </form>
-        </div>
-        <section className='catalog'>
-          {
-            products.map(item => 
-              <Card 
-                key={item.id} 
-                name={item.name} 
-                imageUrl={item.imageUrl}
-                price={item.price}
-                onFavorite={() => console.log('favorite')}
-                onPlus={(obj) => handleAddToCart(obj)}
-                onMinus={(obj) => handleDeleteFromCart(obj)}
+    <AppContext.Provider value={{ products, cartProducts, favoriteCards }}>
+      <div className='page'>
+        <Routes>
+          <Route
+            exact
+            path='/'
+            element={
+              <Home
+                cartOpened={cartOpened}
                 cartProducts={cartProducts}
+                onClickCloseCart={() => setCartOpened(false)}
+                amountProducts={handleCalculateTheAmount}
+                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
+                onClickOpenCart={() => setCartOpened(true)}
+                searchText={searchText}
+                onChange={handleChangeSearchInput}
+                handleDeleteSearchText={handleDeleteSearchText}
+                products={products}
+                onAddToCart={(obj) => handleAddToCart(obj)}
+                onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
+                onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
+                cardFavorite={favoriteCards}
+                loading={isLoading}
               />
-            )
-          }
-        </section>
-      </main>
-      <footer className='footer'>
-        <p className='footer__copyright'>&#169; 2023. React sneakers</p>
-      </footer>
-    </div>
-  );
+            }
+          />
+          <Route
+            exact
+            path='/favorite'
+            element={
+              <Favorite
+                cartOpened={cartOpened}
+                cartProducts={cartProducts}
+                onClickCloseCart={() => setCartOpened(false)}
+                amountProducts={handleCalculateTheAmount}
+                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
+                onClickOpenCart={() => setCartOpened(true)}
+                searchText={searchText}
+                onChange={handleChangeSearchInput}
+                handleDeleteSearchText={handleDeleteSearchText}
+                products={products}
+                onAddToCart={(obj) => handleAddToCart(obj)}
+                onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
+                onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
+                cardFavorite={favoriteCards}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </AppContext.Provider>
+  )
 }
 
-export default App;
+export default App

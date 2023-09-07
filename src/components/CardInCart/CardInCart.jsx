@@ -3,21 +3,21 @@ import './CardInCart.scss';
 import deleteCard from '../../image/button-delete.svg';
 
 
-function Card({name, price, imageUrl, onMinus}) {
+function Card({id, name, price, imageUrl, onDeleteFromCart, mockApiId}) {
 
   const deleteProductInCart = () => {
-    onMinus({name, price, imageUrl})
+    onDeleteFromCart({mockApiId})
   }
 
   return (
     <article className='cardInCart'>
-      <img className='cardInCart__photo' src={imageUrl} alt={'Картинка ' + name.toLowerCase()} />
+      <img src={imageUrl} alt={'Картинка ' + name.toLowerCase()} />
       <div className='cardInCart__align'>
-        <h2 className='cardInCart__title'>{name}</h2>
-        <span className='cardInCart__price-product'>{price}руб.</span>
+        <h2>{name}</h2>
+        <span>{price}руб.</span>
       </div>
-      <button className='button cart-item__button' onClick={deleteProductInCart}>
-        <img src={deleteCard} alt='удалить товар'/>
+      <button className='button' onClick={deleteProductInCart}>
+        <img className='cardInCart__img' src={deleteCard} alt='удалить товар'/>
       </button>
     </article>
   )

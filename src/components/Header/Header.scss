@@ -12,12 +12,22 @@
   &__logo {
     width: 60px;
     margin-right: 16px;
+
+    &:hover {
+      transition: .5s;
+      transform: scale(1.15);
+    }
+
+    &:not(:hover) {
+      transition: 1s;
+    } 
   }
 
   &__align {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    padding-bottom: 7px;
   }
 
   &__title {
@@ -26,12 +36,16 @@
     font-size: 20px;
     line-height: 24px;
     text-transform: uppercase;
+    background: linear-gradient(90deg, #1990dec2, #ff0c00, #faff4073);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   &__subtitle {
     margin: 0;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 13.3px;
     line-height: 17px;
     color: #9d9d9d;
   }

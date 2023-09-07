@@ -1,15 +1,17 @@
-import './Header/Header.scss';
-import logo from '../image/logo.svg';
-import basket from '../image/basket.svg';
-import like from '../image/like.svg';
-import profile from '../image/profile.svg';
+import './Header.scss'
+import { Link } from 'react-router-dom'
+import logo from '../../image/logo.png'
+import basket from '../../image/basket.svg'
+import like from '../../image/like.svg'
+import profile from '../../image/profile.svg'
 
 function Header(props) {
-
   return (
     <header className='header'>
       <div className='header__wrapper-left'>
-        <img className='header__logo' src={logo} alt='логотип' />
+        <Link to='/'>
+          <img className='header__logo' src={logo} alt='логотип' />
+        </Link>
         <div className='header__align'>
           <h2 className='header__title'>React sneakers</h2>
           <p className='header__subtitle'>Магазин лучших кроссовок</p>
@@ -21,14 +23,17 @@ function Header(props) {
           <span className='header__text'>{props.amountProducts()} руб.</span>
         </button>
         <button className='button'>
-          <img className='header__icon' src={like} alt='избранные товары' />
+          <Link to='/favorite'>
+            <img className='header__icon' src={like} alt='закладки' />
+          </Link>
         </button>
+
         <button className='button'>
           <img className='header__icon' src={profile} alt='профиль' />
         </button>
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header
