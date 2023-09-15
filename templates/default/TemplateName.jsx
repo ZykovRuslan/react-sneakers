@@ -1,10 +1,8 @@
-import React from 'react';
-import './TemplateName.scss';
+import React from 'react'
+import './TemplateName.scss'
 
-const TemplateName = () => (
-  <div className="templateName">
-    
-  </div>
-);
+function TemplateName(props) {
+  return <div className='TemplateName'></div>
+}
 
-export default TemplateName;
+export default TemplateName

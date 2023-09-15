@@ -41,8 +41,15 @@ function Home(props) {
         cartProducts={props.cartProducts}
         amountProducts={props.amountProducts}
         onDeleteFromCart={props.onDeleteFromCart}
+        onSendOrder={props.onSendOrder}
+        orderId={props.orderId}
+        // isLoadingOrder={props.isLoadingOrder}
       />
-      <Header onClickOpenCart={props.onClickOpenCart} amountProducts={props.amountProducts} />
+      <Header
+        onClickOpenCart={props.onClickOpenCart}
+        amountProducts={props.amountProducts}
+        cardFavorite={props.cardFavorite}
+      />
       <main className='home'>
         <div className='home__wrapper'>
           <h1>{props.searchText ? `Поиск по: ${props.searchText}` : 'Все кроссовки'}</h1>
@@ -75,9 +82,6 @@ function Home(props) {
           {renderProducts()}
         </section>
       </main>
-      <footer className='footer'>
-        <p className='footer__copyright'>&#169; 2023. React sneakers</p>
-      </footer>
     </>
   )
 }

@@ -14,13 +14,13 @@
     margin-right: 16px;
 
     &:hover {
-      transition: .5s;
+      transition: 0.5s;
       transform: scale(1.15);
     }
 
     &:not(:hover) {
       transition: 1s;
-    } 
+    }
   }
 
   &__align {
@@ -66,5 +66,20 @@
     font-size: 14px;
     line-height: 17px;
     color: #5c5c5c;
+  }
+
+  .header__button-like {
+    position: relative;
+
+    span {
+      position: absolute;
+      top: 43%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: #5c5c5c;
+    }
   }
 }

@@ -1,0 +1,16 @@
+.footer {
+  margin: 0;
+  margin-left: 60px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  text-transform: uppercase;
+
+  p {
+    background: linear-gradient(90deg, #1990dec2, #ff0c00, #faff4073);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    width: fit-content;
+  }
+}

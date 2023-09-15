@@ -22,14 +22,17 @@ function Header(props) {
           <img className='header__icon' src={basket} alt='корзина' />
           <span className='header__text'>{props.amountProducts()} руб.</span>
         </button>
-        <button className='button'>
+        <button className='button header__button-like'>
           <Link to='/favorite'>
             <img className='header__icon' src={like} alt='закладки' />
+            {props.cardFavorite.length !== 0 ? <span>{props.cardFavorite.length}</span> : null}
           </Link>
         </button>
 
         <button className='button'>
-          <img className='header__icon' src={profile} alt='профиль' />
+          <Link to='/order'>
+            <img className='header__icon' src={profile} alt='история заказов' />
+          </Link>
         </button>
       </div>
     </header>

@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import axios from 'axios'
 import Home from './components/Page/Home/Home'
 import Favorite from './components/Page/Favorite/Favorite'
+import Order from './components/Page/Order/Order'
+import Footer from './components/Footer/Footer'
 
 export const AppContext = React.createContext({})
 
@@ -13,6 +15,8 @@ function App() {
   const [searchText, setSearchText] = React.useState('')
   const [favoriteCards, setFavoriteCards] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
+  const [order, setOrder] = React.useState([])
+  const [isLoadingOrder, setIsLoadingOrder] = React.useState(false)
 
   React.useEffect(() => {
     //! сделать  try catch promise.all
@@ -24,7 +28,6 @@ function App() {
       const productsResponse = await axios.get(
         'https://64ef20d5219b3e2873c3fd48.mockapi.io/sneakers',
       )
-
       setIsLoading(false)
       setCartProducts(cartResponse.data)
       setFavoriteCards(favoritesResponse.data)
@@ -69,6 +72,22 @@ function App() {
     setFavoriteCards(updatedFavorite)
   }
 
+  const handleSendAnOrder = async (obj) => {
+    try {
+      setIsLoadingOrder(true)
+      const { data } = await axios.post(`https://64f399bbedfa0459f6c6b22f.mockapi.io/order`, obj)
+      setOrder((prev) => [...prev, data]) //! нужен ли мне стейт ордеров??? если мы берем информацию с бекенд???
+
+      cartProducts.forEach((item) =>
+        axios.delete(`https://64ef20d5219b3e2873c3fd48.mockapi.io/cart/${item.mockApiId}`),
+      )
+      setCartProducts([])
+    } catch {
+      alert('Не удалось отправить заказ =(')
+    }
+    setIsLoadingOrder(false)
+  }
+
   const handleCalculateTheAmount = () => {
     return cartProducts.reduce((sum, item) => sum + item.price, 0)
   }
@@ -104,8 +123,11 @@ function App() {
                 onAddToCart={(obj) => handleAddToCart(obj)}
                 onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
                 onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
+                onSendOrder={(obj) => handleSendAnOrder(obj)}
                 cardFavorite={favoriteCards}
                 loading={isLoading}
+                orderId={order[order.length - 1]?.mockApiId}
+                isLoadingOrder={isLoadingOrder}
               />
             }
           />
@@ -118,20 +140,41 @@ function App() {
                 cartProducts={cartProducts}
                 onClickCloseCart={() => setCartOpened(false)}
                 amountProducts={handleCalculateTheAmount}
-                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
                 onClickOpenCart={() => setCartOpened(true)}
                 searchText={searchText}
                 onChange={handleChangeSearchInput}
                 handleDeleteSearchText={handleDeleteSearchText}
                 products={products}
                 onAddToCart={(obj) => handleAddToCart(obj)}
+                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
                 onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
                 onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
+                onSendOrder={(obj) => handleSendAnOrder(obj)}
+                cardFavorite={favoriteCards}
+                orderId={order[order.length - 1]?.mockApiId}
+              />
+            }
+          />
+          <Route
+            exact
+            path='/order'
+            element={
+              <Order
+                amountProducts={handleCalculateTheAmount}
+                onClickOpenCart={() => setCartOpened(true)}
+                cartOpened={cartOpened}
+                cartProducts={cartProducts}
+                onClickCloseCart={() => setCartOpened(false)}
+                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
+                onSendOrder={(obj) => handleSendAnOrder(obj)}
+                order={order}
+                orderId={order[order.length - 1]?.mockApiId}
                 cardFavorite={favoriteCards}
               />
             }
           />
         </Routes>
+        <Footer />
       </div>
     </AppContext.Provider>
   )

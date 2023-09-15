@@ -1,12 +1,19 @@
-import React from 'react';
-import './CardInCart.scss';
-import deleteCard from '../../image/button-delete.svg';
+import React from 'react'
+import './CardInCart.scss'
+import deleteCard from '../../image/button-delete.svg'
 
-
-function Card({id, name, price, imageUrl, onDeleteFromCart, mockApiId}) {
-
+function CardInCart({
+  name,
+  price,
+  imageUrl,
+  onDeleteFromCart,
+  mockApiId,
+  setIsOrderCompleted,
+  drawer,
+}) {
   const deleteProductInCart = () => {
-    onDeleteFromCart({mockApiId})
+    setIsOrderCompleted(false)
+    onDeleteFromCart({ mockApiId })
   }
 
   return (
@@ -14,13 +21,15 @@ function Card({id, name, price, imageUrl, onDeleteFromCart, mockApiId}) {
       <img src={imageUrl} alt={'Картинка ' + name.toLowerCase()} />
       <div className='cardInCart__align'>
         <h2>{name}</h2>
-        <span>{price}руб.</span>
+        <span className='cardInCart__price'>{price}руб.</span>
       </div>
-      <button className='button' onClick={deleteProductInCart}>
-        <img className='cardInCart__img' src={deleteCard} alt='удалить товар'/>
-      </button>
+      {drawer ? (
+        <button className='button' onClick={deleteProductInCart}>
+          <img className='cardInCart__img' src={deleteCard} alt='удалить товар' />
+        </button>
+      ) : null}
     </article>
   )
 }
 
-export default Card
+export default CardInCart

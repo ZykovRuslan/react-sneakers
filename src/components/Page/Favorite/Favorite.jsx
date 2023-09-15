@@ -3,16 +3,10 @@ import './Favorive.scss'
 import Header from '../../Header/Header'
 import Card from '../../Card/Card'
 import Drawer from '../../Drawer/Drawer'
+import InfoMessage from '../../InfoMessage/InfoMessage'
+import notFavorite from '../../../image/not-favorite.svg'
 
 function Favorite(props) {
-  const handlePushFavorite = (obj) => {
-    props.onPushFavorite(obj)
-  }
-
-  const handleDeleteFavorite = (obj) => {
-    props.onDeleteFavorite(obj)
-  }
-
   return (
     <>
       <Drawer
@@ -21,13 +15,23 @@ function Favorite(props) {
         cartProducts={props.cartProducts}
         amountProducts={props.amountProducts}
         onDeleteFromCart={props.onDeleteFromCart}
+        onSendOrder={props.onSendOrder}
+        orderId={props.orderId}
       />
-      <Header onClickOpenCart={props.onClickOpenCart} amountProducts={props.amountProducts} />
+      <Header
+        onClickOpenCart={props.onClickOpenCart}
+        amountProducts={props.amountProducts}
+        cardFavorite={props.cardFavorite}
+      />
       <main className='favorite'>
         <h1>Мои закладки</h1>
         <section>
           {props.cardFavorite.length === 0 ? (
-            <p>В закладки пока ничего не добавлено</p>
+            <InfoMessage
+              image={notFavorite}
+              name={'У вас нет закладок'}
+              text={'Добавте что вам нравится'}
+            />
           ) : (
             props.cardFavorite.map((item) => (
               <Card
@@ -39,8 +43,8 @@ function Favorite(props) {
                 onAddToCart={props.onAddToCart}
                 onDeleteFromCart={props.onDeleteFromCart}
                 cartProducts={props.cartProducts}
-                onPushFavorite={(obj) => handlePushFavorite(obj)}
-                onDeleteFavorite={(obj) => handleDeleteFavorite(obj)}
+                onPushFavorite={props.onPushFavorite}
+                onDeleteFavorite={props.onDeleteFavorite}
                 cardFavorite={props.cardFavorite}
               />
             ))

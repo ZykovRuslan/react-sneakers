@@ -89,10 +89,7 @@ function Card({
       ) : (
         <>
           <button className='card__button-like button' onClick={addFavoriteCard}>
-            <img
-              src={isFavorite ? cardLiked : cardLike}
-              alt={isFavorite ? 'понравилось' : 'нравится'}
-            />
+            <img src={isFavorite ? cardLiked : cardLike} alt={isFavorite ? 'лайк' : 'дизлайк'} />
           </button>
           <img className='card__photo' src={imageUrl} alt={'Картинка ' + name.toLowerCase()} />
           <h2 className='card__title'>{name}</h2>
