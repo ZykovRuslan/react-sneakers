@@ -5,6 +5,7 @@ import cardLike from '../../image/card-like.png'
 import cardLiked from '../../image/card-liked.svg'
 import added from '../../image/added.svg'
 import ContentLoaderCard from '../ContentLoaderCard/ContentLoaderCard'
+import { AppContext } from '../../AppContext/AppContext'
 
 function Card({
   id,
@@ -13,15 +14,15 @@ function Card({
   imageUrl,
   onAddToCart,
   onDeleteFromCart,
-  cartProducts,
   onPushFavorite,
   onDeleteFavorite,
-  cardFavorite,
   loading,
 }) {
   const [isAddedProduct, setIsAddedProduct] = React.useState(false)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+
+  const { cardFavorite, cartProducts } = React.useContext(AppContext)
 
   const addProductToCart = async () => {
     if (isSubmitting) {

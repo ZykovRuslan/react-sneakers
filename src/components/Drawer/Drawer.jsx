@@ -7,20 +7,17 @@ import emptyCartImage from '../../image/empty-basket.svg'
 import sendOrder from '../../image/sendOrder.svg'
 import CardInCart from '../CardInCart/CardInCart'
 import InfoMessage from '../InfoMessage/InfoMessage'
+import { AppContext } from '../../AppContext/AppContext'
+import axios from 'axios'
 
-function Drawer({
-  cartOpened,
-  onClickCloseCart,
-  amountProducts,
-  cartProducts,
-  onDeleteFromCart,
-  onSendOrder,
-  orderId,
-  isLoadingOrder,
-}) {
+function Drawer({ cartOpened, onClickCloseCart, amountProducts, onDeleteFromCart }) {
   const [isOrderCompleted, setIsOrderCompleted] = React.useState(false)
+  const [isLoadingOrder, setIsLoadingOrder] = React.useState(false)
 
   const { mounted } = useMount({ opened: cartOpened })
+  const { cartProducts, setCartProducts, order, setOrder } = React.useContext(AppContext)
+
+  const orderId = order[order.length - 1]?.mockApiId
 
   const closeModalEsq = (event) => {
     if (event.key === 'Escape') {
@@ -41,17 +38,27 @@ function Drawer({
   }
 
   const calculateTheTax = () => {
-    const totalTax = (amountProducts() * 5) / 100
+    const totalTax = amountProducts() * 0.95
     return totalTax
   }
 
-  const handleClickSendAnOrder = async () => {
+  const handleSendAnOrder = async () => {
     try {
-      onSendOrder({ cartProducts }) //! почему тут передаем {} ??
+      setIsLoadingOrder(true)
+      const { data } = await axios.post(`https://64f399bbedfa0459f6c6b22f.mockapi.io/order`, {
+        cartProducts,
+      })
+      setOrder((prev) => [...prev, data])
+
+      cartProducts.forEach((item) =>
+        axios.delete(`https://64ef20d5219b3e2873c3fd48.mockapi.io/cart/${item.mockApiId}`),
+      )
+      setCartProducts([])
       setIsOrderCompleted(true)
-    } catch (err) {
-      console.log(err)
+    } catch {
+      alert('Не удалось отправить заказ')
     }
+    setIsLoadingOrder(false)
   }
 
   return (
@@ -97,7 +104,7 @@ function Drawer({
             ))
           )}
         </div>
-        {cartProducts.length !== 0 ? (
+        {cartProducts.length ? (
           <>
             <ul>
               <li>
@@ -111,7 +118,7 @@ function Drawer({
             </ul>
             <button
               className={'button drawer__button-forth'}
-              onClick={handleClickSendAnOrder}
+              onClick={handleSendAnOrder}
               disabled={isLoadingOrder}>
               Оформить заказ
               <img src={forth} alt='далее' />

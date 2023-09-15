@@ -2,9 +2,7 @@ import React from 'react'
 import './Home.scss'
 import search from '../../../image/search.svg'
 import deleteTextValue from '../../../image/button-delete.svg'
-import Header from '../../Header/Header'
 import Card from '../../Card/Card'
-import Drawer from '../../Drawer/Drawer'
 
 function Home(props) {
   const [searchText, setSearchText] = React.useState('')
@@ -27,10 +25,8 @@ function Home(props) {
         price={item.price}
         onAddToCart={props.onAddToCart}
         onDeleteFromCart={props.onDeleteFromCart}
-        cartProducts={props.cartProducts}
         onPushFavorite={props.onPushFavorite}
         onDeleteFavorite={props.onDeleteFavorite}
-        cardFavorite={props.cardFavorite}
         loading={props.loading}
       />
     ))
@@ -46,43 +42,28 @@ function Home(props) {
   }
 
   return (
-    <>
-      <Drawer
-        cartOpened={props.cartOpened}
-        onClickCloseCart={props.onClickCloseCart}
-        cartProducts={props.cartProducts}
-        amountProducts={props.amountProducts}
-        onDeleteFromCart={props.onDeleteFromCart}
-        onSendOrder={props.onSendOrder}
-        orderId={props.orderId}
-      />
-      <Header
-        onClickOpenCart={props.onClickOpenCart}
-        amountProducts={props.amountProducts}
-        cardFavorite={props.cardFavorite}
-      />
-      <main className='home'>
-        <div className='home__wrapper'>
-          <h1>{searchText ? `Поиск по: ${searchText}` : 'Все кроссовки'}</h1>
-          <div className='home__align'>
-            <img src={search} alt='поиск' />
-            <input
-              type='text'
-              name='search'
-              placeholder='Поиск...'
-              value={searchText}
-              onChange={handleChangeSearchInput}
-              aria-label='Поиск кроссовок'
-            />
-            {searchText && (
-              <button className='button' onClick={handleDeleteSearchText}>
-                <img className='button__delete-img' src={deleteTextValue} alt='удалить текст' />
-              </button>
-            )}
-          </div>
+    <main className='home'>
+      <div className='home__wrapper'>
+        <h1>{searchText ? `Поиск по: ${searchText}` : 'Все кроссовки'}</h1>
+        <div className='home__align'>
+          <img src={search} alt='поиск' />
+          <input
+            type='text'
+            name='search'
+            placeholder='Поиск...'
+            value={searchText}
+            onChange={handleChangeSearchInput}
+            aria-label='Поиск кроссовок'
+          />
+          {searchText && (
+            <button className='button' onClick={handleDeleteSearchText}>
+              <img className='button__delete-img' src={deleteTextValue} alt='удалить текст' />
+            </button>
+          )}
         </div>
-        <section>
-          {/* {props.loading &&
+      </div>
+      <section>
+        {/* {props.loading &&
           props.products.filter((item) =>
             item.name.toLowerCase().includes(props.searchText.toLowerCase()),
           ).length === 0 ? (
@@ -90,10 +71,9 @@ function Home(props) {
           ) : (
             renderProducts()
           )} */}
-          {renderProducts()}
-        </section>
-      </main>
-    </>
+        {renderProducts()}
+      </section>
+    </main>
   )
 }
 

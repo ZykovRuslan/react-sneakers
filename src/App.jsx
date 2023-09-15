@@ -4,18 +4,18 @@ import axios from 'axios'
 import Home from './components/Page/Home/Home'
 import Favorite from './components/Page/Favorite/Favorite'
 import Order from './components/Page/Order/Order'
+import Header from './components/Header/Header'
+import Drawer from './components/Drawer/Drawer'
 import Footer from './components/Footer/Footer'
-
-export const AppContext = React.createContext({})
+import { AppContext } from './AppContext/AppContext'
 
 function App() {
   const [products, setProducts] = React.useState([])
   const [cartProducts, setCartProducts] = React.useState([])
-  const [cartOpened, setCartOpened] = React.useState(false)
   const [favoriteCards, setFavoriteCards] = React.useState([])
+  const [cartOpened, setCartOpened] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
   const [order, setOrder] = React.useState([])
-  const [isLoadingOrder, setIsLoadingOrder] = React.useState(false)
 
   React.useEffect(() => {
     try {
@@ -72,50 +72,35 @@ function App() {
     setFavoriteCards(updatedFavorite)
   }
 
-  const handleSendAnOrder = async (obj) => {
-    try {
-      setIsLoadingOrder(true)
-      const { data } = await axios.post(`https://64f399bbedfa0459f6c6b22f.mockapi.io/order`, obj)
-      setOrder((prev) => [...prev, data]) //! нужен ли мне стейт ордеров??? если мы берем информацию с бекенд???
-
-      cartProducts.forEach((item) =>
-        axios.delete(`https://64ef20d5219b3e2873c3fd48.mockapi.io/cart/${item.mockApiId}`),
-      )
-      setCartProducts([])
-    } catch {
-      alert('Не удалось отправить заказ =(')
-    }
-    setIsLoadingOrder(false)
-  }
-
   const handleCalculateTheAmount = () => {
     return cartProducts.reduce((sum, item) => sum + item.price, 0)
   }
 
   return (
-    <AppContext.Provider value={{ products, cartProducts, favoriteCards }}>
+    <AppContext.Provider value={{ favoriteCards, cartProducts, setCartProducts, order, setOrder }}>
       <div className='page'>
+        <Drawer
+          cartOpened={cartOpened}
+          onClickCloseCart={() => setCartOpened(false)}
+          amountProducts={handleCalculateTheAmount}
+          onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
+        />
+        <Header
+          onClickOpenCart={() => setCartOpened(true)}
+          amountProducts={handleCalculateTheAmount}
+        />
         <Routes>
           <Route
             exact
             path='/'
             element={
               <Home
-                cartOpened={cartOpened}
-                cartProducts={cartProducts}
-                onClickCloseCart={() => setCartOpened(false)}
-                amountProducts={handleCalculateTheAmount}
-                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
-                onClickOpenCart={() => setCartOpened(true)}
                 products={products}
+                loading={isLoading}
                 onAddToCart={(obj) => handleAddToCart(obj)}
+                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
                 onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
                 onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
-                onSendOrder={(obj) => handleSendAnOrder(obj)}
-                cardFavorite={favoriteCards}
-                loading={isLoading}
-                orderId={order[order.length - 1]?.mockApiId}
-                isLoadingOrder={isLoadingOrder}
               />
             }
           />
@@ -124,40 +109,14 @@ function App() {
             path='/favorite'
             element={
               <Favorite
-                cartOpened={cartOpened}
-                cartProducts={cartProducts}
-                onClickCloseCart={() => setCartOpened(false)}
-                amountProducts={handleCalculateTheAmount}
-                onClickOpenCart={() => setCartOpened(true)}
-                products={products}
                 onAddToCart={(obj) => handleAddToCart(obj)}
                 onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
                 onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
                 onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
-                onSendOrder={(obj) => handleSendAnOrder(obj)}
-                cardFavorite={favoriteCards}
-                orderId={order[order.length - 1]?.mockApiId}
               />
             }
           />
-          <Route
-            exact
-            path='/order'
-            element={
-              <Order
-                amountProducts={handleCalculateTheAmount}
-                onClickOpenCart={() => setCartOpened(true)}
-                cartOpened={cartOpened}
-                cartProducts={cartProducts}
-                onClickCloseCart={() => setCartOpened(false)}
-                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
-                onSendOrder={(obj) => handleSendAnOrder(obj)}
-                order={order}
-                orderId={order[order.length - 1]?.mockApiId}
-                cardFavorite={favoriteCards}
-              />
-            }
-          />
+          <Route exact path='/order' element={<Order />} />
         </Routes>
         <Footer />
       </div>

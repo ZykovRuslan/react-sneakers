@@ -1,3 +1,5 @@
+import React from 'react'
+import { AppContext } from '../../AppContext/AppContext'
 import './Header.scss'
 import { Link } from 'react-router-dom'
 import logo from '../../image/logo.png'
@@ -5,7 +7,9 @@ import basket from '../../image/basket.svg'
 import like from '../../image/like.svg'
 import profile from '../../image/profile.svg'
 
-function Header(props) {
+function Header({ onClickOpenCart, amountProducts }) {
+  const { favoriteCards } = React.useContext(AppContext)
+
   return (
     <header className='header'>
       <div className='header__wrapper-left'>
@@ -18,14 +22,14 @@ function Header(props) {
         </div>
       </div>
       <div className='header__wrapper-right'>
-        <button className='button' onClick={props.onClickOpenCart}>
+        <button className='button' onClick={onClickOpenCart}>
           <img className='header__icon' src={basket} alt='корзина' />
-          <span className='header__text'>{props.amountProducts()} руб.</span>
+          <span className='header__text'>{amountProducts()} руб.</span>
         </button>
         <button className='button header__button-like'>
           <Link to='/favorite'>
             <img className='header__icon' src={like} alt='закладки' />
-            {props.cardFavorite.length !== 0 ? <span>{props.cardFavorite.length}</span> : null}
+            {favoriteCards.length ? <span>{favoriteCards.length}</span> : null}
           </Link>
         </button>
 
