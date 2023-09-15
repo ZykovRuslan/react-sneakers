@@ -1,22 +1,25 @@
 import React from 'react'
+import { AppContext } from '../../../AppContext/AppContext'
 import './Favorive.scss'
 import Card from '../../Card/Card'
 import InfoMessage from '../../InfoMessage/InfoMessage'
 import notFavorite from '../../../image/not-favorite.svg'
 
 function Favorite(props) {
+  const { favoriteCards } = React.useContext(AppContext)
+
   return (
     <main className='favorite'>
       <h1>Мои закладки</h1>
       <section>
-        {props.cardFavorite.length === 0 ? (
+        {favoriteCards.length === 0 ? (
           <InfoMessage
             image={notFavorite}
             name={'У вас нет закладок'}
             text={'Добавте что вам нравится'}
           />
         ) : (
-          props.cardFavorite.map((item) => (
+          favoriteCards.map((item) => (
             <Card
               key={item.id}
               id={item.id}

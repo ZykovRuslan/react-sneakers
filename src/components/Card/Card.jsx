@@ -22,7 +22,7 @@ function Card({
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
-  const { cardFavorite, cartProducts } = React.useContext(AppContext)
+  const { favoriteCards, cartProducts } = React.useContext(AppContext)
 
   const addProductToCart = async () => {
     if (isSubmitting) {
@@ -62,7 +62,7 @@ function Card({
         onPushFavorite({ id, name, price, imageUrl })
         setIsFavorite((state) => !state)
       } else {
-        const favorites = cardFavorite.find((item) => item.id === id)
+        const favorites = favoriteCards.find((item) => item.id === id)
         if (favorites) {
           const { mockApiId } = favorites
           onDeleteFavorite({ mockApiId })
@@ -78,10 +78,10 @@ function Card({
 
   React.useEffect(() => {
     const isProductAdded = cartProducts?.some((item) => item.name === name)
-    const isFavoriteAdded = cardFavorite?.some((item) => item.name === name)
+    const isFavoriteAdded = favoriteCards?.some((item) => item.name === name)
     setIsFavorite(isFavoriteAdded)
     setIsAddedProduct(isProductAdded)
-  }, [cartProducts, cardFavorite, name])
+  }, [cartProducts, favoriteCards, name])
 
   return (
     <article className='card'>
