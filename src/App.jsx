@@ -12,29 +12,29 @@ function App() {
   const [products, setProducts] = React.useState([])
   const [cartProducts, setCartProducts] = React.useState([])
   const [cartOpened, setCartOpened] = React.useState(false)
-  const [searchText, setSearchText] = React.useState('')
   const [favoriteCards, setFavoriteCards] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
   const [order, setOrder] = React.useState([])
   const [isLoadingOrder, setIsLoadingOrder] = React.useState(false)
 
   React.useEffect(() => {
-    //! сделать  try catch promise.all
-    async function fetchData() {
-      const cartResponse = await axios.get('https://64ef20d5219b3e2873c3fd48.mockapi.io/cart')
-      const favoritesResponse = await axios.get(
-        'https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite',
-      )
-      const productsResponse = await axios.get(
-        'https://64ef20d5219b3e2873c3fd48.mockapi.io/sneakers',
-      )
-      setIsLoading(false)
-      setCartProducts(cartResponse.data)
-      setFavoriteCards(favoritesResponse.data)
-      setProducts(productsResponse.data)
+    try {
+      ;(async () => {
+        const cartResponse = await axios.get('https://64ef20d5219b3e2873c3fd48.mockapi.io/cart')
+        const favoritesResponse = await axios.get(
+          'https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite',
+        )
+        const productsResponse = await axios.get(
+          'https://64ef20d5219b3e2873c3fd48.mockapi.io/sneakers',
+        )
+        setIsLoading(false)
+        setCartProducts(cartResponse.data)
+        setFavoriteCards(favoritesResponse.data)
+        setProducts(productsResponse.data)
+      })()
+    } catch {
+      alert('Ошибка при загрузке данных')
     }
-
-    fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -92,15 +92,6 @@ function App() {
     return cartProducts.reduce((sum, item) => sum + item.price, 0)
   }
 
-  const handleChangeSearchInput = (event) => {
-    setSearchText(event.target.value)
-  }
-
-  const handleDeleteSearchText = (event) => {
-    event.preventDefault()
-    setSearchText('')
-  }
-
   return (
     <AppContext.Provider value={{ products, cartProducts, favoriteCards }}>
       <div className='page'>
@@ -116,9 +107,6 @@ function App() {
                 amountProducts={handleCalculateTheAmount}
                 onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
                 onClickOpenCart={() => setCartOpened(true)}
-                searchText={searchText}
-                onChange={handleChangeSearchInput}
-                handleDeleteSearchText={handleDeleteSearchText}
                 products={products}
                 onAddToCart={(obj) => handleAddToCart(obj)}
                 onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
@@ -141,9 +129,6 @@ function App() {
                 onClickCloseCart={() => setCartOpened(false)}
                 amountProducts={handleCalculateTheAmount}
                 onClickOpenCart={() => setCartOpened(true)}
-                searchText={searchText}
-                onChange={handleChangeSearchInput}
-                handleDeleteSearchText={handleDeleteSearchText}
                 products={products}
                 onAddToCart={(obj) => handleAddToCart(obj)}
                 onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}

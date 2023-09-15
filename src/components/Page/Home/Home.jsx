@@ -7,10 +7,13 @@ import Card from '../../Card/Card'
 import Drawer from '../../Drawer/Drawer'
 
 function Home(props) {
+  const [searchText, setSearchText] = React.useState('')
+
   const renderProducts = () => {
     const filtredProduct = props.products.filter((item) =>
-      item.name.toLowerCase().includes(props.searchText.toLowerCase()),
+      item.name.toLowerCase().includes(searchText.toLowerCase()),
     )
+
     return (
       props.loading
         ? [...Array(8)].map((_, index) => <Card key={index} loading={props.loading} />)
@@ -33,6 +36,15 @@ function Home(props) {
     ))
   }
 
+  const handleChangeSearchInput = (event) => {
+    setSearchText(event.target.value)
+  }
+
+  const handleDeleteSearchText = (event) => {
+    event.preventDefault()
+    setSearchText('')
+  }
+
   return (
     <>
       <Drawer
@@ -43,7 +55,6 @@ function Home(props) {
         onDeleteFromCart={props.onDeleteFromCart}
         onSendOrder={props.onSendOrder}
         orderId={props.orderId}
-        // isLoadingOrder={props.isLoadingOrder}
       />
       <Header
         onClickOpenCart={props.onClickOpenCart}
@@ -52,19 +63,19 @@ function Home(props) {
       />
       <main className='home'>
         <div className='home__wrapper'>
-          <h1>{props.searchText ? `Поиск по: ${props.searchText}` : 'Все кроссовки'}</h1>
+          <h1>{searchText ? `Поиск по: ${searchText}` : 'Все кроссовки'}</h1>
           <div className='home__align'>
             <img src={search} alt='поиск' />
             <input
               type='text'
               name='search'
               placeholder='Поиск...'
-              value={props.searchText}
-              onChange={props.onChange}
+              value={searchText}
+              onChange={handleChangeSearchInput}
               aria-label='Поиск кроссовок'
             />
-            {props.searchText && (
-              <button className='button' onClick={props.handleDeleteSearchText}>
+            {searchText && (
+              <button className='button' onClick={handleDeleteSearchText}>
                 <img className='button__delete-img' src={deleteTextValue} alt='удалить текст' />
               </button>
             )}
