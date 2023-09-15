@@ -43,8 +43,8 @@ function Card({
           setIsAddedProduct((state) => !state)
         }
       }
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
     } finally {
       setIsSubmitting(false)
     }
@@ -69,8 +69,8 @@ function Card({
           setIsFavorite((state) => !state)
         }
       }
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
     } finally {
       setIsSubmitting(false)
     }

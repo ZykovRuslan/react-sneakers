@@ -32,7 +32,8 @@ function App() {
         setFavoriteCards(favoritesResponse.data)
         setProducts(productsResponse.data)
       })()
-    } catch {
+    } catch (error) {
+      console.log(error)
       alert('Ошибка при загрузке данных')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,7 +43,8 @@ function App() {
     try {
       const { data } = await axios.post('https://64ef20d5219b3e2873c3fd48.mockapi.io/cart', obj)
       setCartProducts((prev) => [...prev, data])
-    } catch {
+    } catch (error) {
+      console.log(error)
       alert('Не удалось добавить в корзину')
     }
   }
@@ -52,7 +54,8 @@ function App() {
       axios.delete(`https://64ef20d5219b3e2873c3fd48.mockapi.io/cart/${obj.mockApiId}`)
       const updatedCart = cartProducts.filter((item) => item.mockApiId !== obj.mockApiId)
       setCartProducts(updatedCart)
-    } catch {
+    } catch (error) {
+      console.log(error)
       alert('Не удалось удалить из корзины')
     }
   }
@@ -61,7 +64,8 @@ function App() {
     try {
       const { data } = await axios.post('https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite', obj)
       setFavoriteCards((prev) => [...prev, data])
-    } catch {
+    } catch (error) {
+      console.log(error)
       alert('Не удалось добавить в закладки')
     }
   }

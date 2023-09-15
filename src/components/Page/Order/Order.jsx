@@ -15,7 +15,8 @@ function Order(props) {
         const ordersResponse = await axios.get('https://64f399bbedfa0459f6c6b22f.mockapi.io/order')
         setOrder(ordersResponse.data)
       })()
-    } catch {
+    } catch (error) {
+      console.log(error)
       alert('Не удалось загрузить историю заказов')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

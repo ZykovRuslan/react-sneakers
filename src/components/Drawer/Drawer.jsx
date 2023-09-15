@@ -55,7 +55,8 @@ function Drawer({ cartOpened, onClickCloseCart, amountProducts, onDeleteFromCart
       )
       setCartProducts([])
       setIsOrderCompleted(true)
-    } catch {
+    } catch (error) {
+      console.log(error)
       alert('Не удалось отправить заказ')
     }
     setIsLoadingOrder(false)
