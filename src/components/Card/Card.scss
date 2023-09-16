@@ -2,13 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #f3f3f3;
+  border: 1px solid var(--color-border);
   border-radius: 40px;
   position: relative;
   padding: 20px 30px 34px 30px;
+  background-color: var(--background-card);
 
   &:hover {
-    box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 20px 30px var(--color-shadow);
     transition: 0.5s;
     transform: translateY(-5px);
   }
@@ -34,7 +35,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-    color: #000000;
+    color: var(--color);
   }
 
   &__align {
@@ -59,6 +60,6 @@
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: #000000;
+    color: var(--color);
   }
 }

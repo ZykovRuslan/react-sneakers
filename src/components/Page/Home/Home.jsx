@@ -3,6 +3,7 @@ import './Home.scss'
 import search from '../../../image/search.svg'
 import deleteTextValue from '../../../image/button-delete.svg'
 import Card from '../../Card/Card'
+import SimpleSlider from '../../Slider/Slider'
 
 function Home(props) {
   const [searchText, setSearchText] = React.useState('')
@@ -11,7 +12,6 @@ function Home(props) {
     const filtredProduct = props.products.filter((item) =>
       item.name.toLowerCase().includes(searchText.toLowerCase()),
     )
-
     return (
       props.loading
         ? [...Array(8)].map((_, index) => <Card key={index} loading={props.loading} />)
@@ -43,6 +43,7 @@ function Home(props) {
 
   return (
     <main className='home'>
+      <SimpleSlider />
       <div className='home__wrapper'>
         <h1>{searchText ? `Поиск по: ${searchText}` : 'Все кроссовки'}</h1>
         <div className='home__align'>
@@ -62,17 +63,7 @@ function Home(props) {
           )}
         </div>
       </div>
-      <section>
-        {/* {props.loading &&
-          props.products.filter((item) =>
-            item.name.toLowerCase().includes(props.searchText.toLowerCase()),
-          ).length === 0 ? (
-            <p>По поиcку ничего не найдено</p>
-          ) : (
-            renderProducts()
-          )} */}
-        {renderProducts()}
-      </section>
+      <section>{renderProducts()}</section>
     </main>
   )
 }

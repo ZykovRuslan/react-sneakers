@@ -1,7 +1,7 @@
 .header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 3px solid #eaeaea;
+  border-bottom: 3px solid var(--color-border);
 
   &__wrapper-left {
     display: flex;

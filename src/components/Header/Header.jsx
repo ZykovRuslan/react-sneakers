@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { AppContext } from '../../AppContext/AppContext'
+import { ThemeContext } from '../../ThemeContext/ThemeContext'
 import './Header.scss'
 import { Link } from 'react-router-dom'
 import logo from '../../image/logo.png'
 import basket from '../../image/basket.svg'
 import like from '../../image/like.svg'
 import profile from '../../image/profile.svg'
+import ThemeToggle from '../ThemeToggle/ThemeToggle'
 
 function Header({ onClickOpenCart, amountProducts }) {
   const { favoriteCards } = React.useContext(AppContext)
+  const [theme, setTheme] = useContext(ThemeContext)
+
+  const changeTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light')
+  }
 
   return (
     <header className='header'>
@@ -32,12 +39,12 @@ function Header({ onClickOpenCart, amountProducts }) {
             {favoriteCards.length ? <span>{favoriteCards.length}</span> : null}
           </Link>
         </button>
-
         <button className='button'>
           <Link to='/order'>
             <img className='header__icon' src={profile} alt='история заказов' />
           </Link>
         </button>
+        <ThemeToggle onChange={changeTheme} />
       </div>
     </header>
   )

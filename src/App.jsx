@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import axios from 'axios'
+
 import Home from './components/Page/Home/Home'
 import Favorite from './components/Page/Favorite/Favorite'
 import Order from './components/Page/Order/Order'
@@ -8,6 +8,16 @@ import Header from './components/Header/Header'
 import Drawer from './components/Drawer/Drawer'
 import Footer from './components/Footer/Footer'
 import { AppContext } from './AppContext/AppContext'
+import { ThemeProvider } from './ThemeContext/ThemeContext'
+import {
+  getCart,
+  getFavorites,
+  getProducts,
+  addToCart,
+  deleteFromCart,
+  addToFavorites,
+  deleteFromFavorites,
+} from './utils/api'
 
 function App() {
   const [products, setProducts] = React.useState([])
@@ -20,13 +30,9 @@ function App() {
   React.useEffect(() => {
     try {
       ;(async () => {
-        const cartResponse = await axios.get('https://64ef20d5219b3e2873c3fd48.mockapi.io/cart')
-        const favoritesResponse = await axios.get(
-          'https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite',
-        )
-        const productsResponse = await axios.get(
-          'https://64ef20d5219b3e2873c3fd48.mockapi.io/sneakers',
-        )
+        const cartResponse = await getCart()
+        const favoritesResponse = await getFavorites()
+        const productsResponse = await getProducts()
         setIsLoading(false)
         setCartProducts(cartResponse.data)
         setFavoriteCards(favoritesResponse.data)
@@ -36,12 +42,11 @@ function App() {
       console.log(error)
       alert('Ошибка при загрузке данных')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleAddToCart = async (obj) => {
     try {
-      const { data } = await axios.post('https://64ef20d5219b3e2873c3fd48.mockapi.io/cart', obj)
+      const { data } = await addToCart(obj)
       setCartProducts((prev) => [...prev, data])
     } catch (error) {
       console.log(error)
@@ -49,9 +54,9 @@ function App() {
     }
   }
 
-  const handleDeleteFromCart = (obj) => {
+  const handleDeleteFromCart = async (obj) => {
     try {
-      axios.delete(`https://64ef20d5219b3e2873c3fd48.mockapi.io/cart/${obj.mockApiId}`)
+      await deleteFromCart(obj)
       const updatedCart = cartProducts.filter((item) => item.mockApiId !== obj.mockApiId)
       setCartProducts(updatedCart)
     } catch (error) {
@@ -62,7 +67,7 @@ function App() {
 
   const handleAddFavoriteCard = async (obj) => {
     try {
-      const { data } = await axios.post('https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite', obj)
+      const { data } = await addToFavorites(obj)
       setFavoriteCards((prev) => [...prev, data])
     } catch (error) {
       console.log(error)
@@ -70,8 +75,8 @@ function App() {
     }
   }
 
-  const handleDeleteFavoriteCard = (obj) => {
-    axios.delete(`https://64f399bbedfa0459f6c6b22f.mockapi.io/favorite/${obj.mockApiId}`)
+  const handleDeleteFavoriteCard = async (obj) => {
+    await deleteFromFavorites(obj)
     const updatedFavorite = favoriteCards.filter((item) => item.mockApiId !== obj.mockApiId)
     setFavoriteCards(updatedFavorite)
   }
@@ -81,50 +86,53 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{ favoriteCards, cartProducts, setCartProducts, order, setOrder }}>
-      <div className='page'>
-        <Drawer
-          cartOpened={cartOpened}
-          onClickCloseCart={() => setCartOpened(false)}
-          amountProducts={handleCalculateTheAmount}
-          onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
-        />
-        <Header
-          onClickOpenCart={() => setCartOpened(true)}
-          amountProducts={handleCalculateTheAmount}
-        />
-        <Routes>
-          <Route
-            exact
-            path='/'
-            element={
-              <Home
-                products={products}
-                loading={isLoading}
-                onAddToCart={(obj) => handleAddToCart(obj)}
-                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
-                onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
-                onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
-              />
-            }
+    <ThemeProvider>
+      <AppContext.Provider
+        value={{ favoriteCards, cartProducts, setCartProducts, order, setOrder }}>
+        <div className='page'>
+          <Drawer
+            cartOpened={cartOpened}
+            onClickCloseCart={() => setCartOpened(false)}
+            amountProducts={handleCalculateTheAmount}
+            onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
           />
-          <Route
-            exact
-            path='/favorite'
-            element={
-              <Favorite
-                onAddToCart={(obj) => handleAddToCart(obj)}
-                onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
-                onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
-                onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
-              />
-            }
+          <Header
+            onClickOpenCart={() => setCartOpened(true)}
+            amountProducts={handleCalculateTheAmount}
           />
-          <Route exact path='/order' element={<Order />} />
-        </Routes>
-        <Footer />
-      </div>
-    </AppContext.Provider>
+          <Routes>
+            <Route
+              exact
+              path='/'
+              element={
+                <Home
+                  products={products}
+                  loading={isLoading}
+                  onAddToCart={(obj) => handleAddToCart(obj)}
+                  onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
+                  onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
+                  onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
+                />
+              }
+            />
+            <Route
+              exact
+              path='/favorite'
+              element={
+                <Favorite
+                  onAddToCart={(obj) => handleAddToCart(obj)}
+                  onDeleteFromCart={(obj) => handleDeleteFromCart(obj)}
+                  onPushFavorite={(obj) => handleAddFavoriteCard(obj)}
+                  onDeleteFavorite={(obj) => handleDeleteFavoriteCard(obj)}
+                />
+              }
+            />
+            <Route exact path='/order' element={<Order />} />
+          </Routes>
+          <Footer />
+        </div>
+      </AppContext.Provider>
+    </ThemeProvider>
   )
 }
 

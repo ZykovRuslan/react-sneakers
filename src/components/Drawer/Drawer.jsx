@@ -38,7 +38,7 @@ function Drawer({ cartOpened, onClickCloseCart, amountProducts, onDeleteFromCart
   }
 
   const calculateTheTax = () => {
-    const totalTax = amountProducts() * 0.95
+    const totalTax = amountProducts() * 0.05
     return totalTax
   }
 
