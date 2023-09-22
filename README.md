@@ -1,4 +1,4 @@
-<h1 align="center">React Sneakers</h1>
+<h1 align="center">React sneakers</h1>
 <p align="center">
   <img src="https://i.ibb.co/QHTZDWC/2023-09-17-02-02-11.png">
 </p>
