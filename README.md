@@ -1,6 +1,6 @@
 <h1 align="center">Sneakers react</h1>
 <p align="center">
-  <img src="https://i.postimg.cc/KYMTb9tn/2023-09-22-19-58-38.png">
+  <img src="https://i.postimg.cc/KYMTb9tn/2023-09-22-19-58-38.png" alt="банер проекта">
 </p>
 
 Проект Sneakers react - это интерактивный веб-сайт, разработанный с использованием технологий React и JavaScript. Этот веб-сайт предназначен для поиска, просмотра и покупки кроссовок онлайн.
