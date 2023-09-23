@@ -57,8 +57,6 @@
 
 Вы можете посмотреть проект в действии, перейдя по следующей ссылке: 🔗 [Sneakers react demo](https://react-sneakers-tbe0.onrender.com) 🌟
 
----
-
 ## Для связи
   <a href="https://linkedin.com/in/ruslan-zykov/">
     <img src="https://img.shields.io/badge/Linkedin-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge" width="120"/>
