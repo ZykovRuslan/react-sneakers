@@ -14,3 +14,9 @@
     width: fit-content;
   }
 }
+
+@media (max-width: 768px) {
+  .footer {
+    margin: 0 auto;
+  }
+}

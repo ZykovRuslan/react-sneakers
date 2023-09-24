@@ -41,3 +41,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
 }
+
+@media (max-width: 768px) {
+  .order {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}

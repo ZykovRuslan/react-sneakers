@@ -251,3 +251,9 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 460px) {
+  .drawer__cart {
+    width: 320px;
+  }
+}

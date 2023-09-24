@@ -18,3 +18,10 @@
     justify-content: center;
   }
 }
+
+@media (max-width: 768px) {
+  .favorite {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}

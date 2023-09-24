@@ -58,3 +58,16 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .home {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}
+
+@media (max-width: 490px) {
+  .home__wrapper {
+    flex-direction: column;
+  }
+}

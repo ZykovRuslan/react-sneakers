@@ -83,3 +83,22 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .header__wrapper-left {
+    margin: 20px 0 20px 0;
+    justify-content: center;
+  }
+
+  .header__wrapper-right {
+    margin-right: 0;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+}
