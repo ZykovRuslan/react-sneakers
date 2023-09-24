@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/ZykovRuslan/react-sneakers/static/css/main.6d54e0a4.css",
+    "main.js": "/ZykovRuslan/react-sneakers/static/js/main.500ad68e.js",
+    "static/media/nike-poster.jpeg": "/ZykovRuslan/react-sneakers/static/media/nike-poster.3162e49c4dd4e1ec31ed.jpeg",
+    "static/media/adidas-poster.jpeg": "/ZykovRuslan/react-sneakers/static/media/adidas-poster.7aee3f8ea1758903c68a.jpeg",
+    "static/media/logo.png": "/ZykovRuslan/react-sneakers/static/media/logo.be32de0fbde05661254a.png",
+    "static/media/empty-basket.svg": "/ZykovRuslan/react-sneakers/static/media/empty-basket.55fe8e379f3163297f98dfd7eef7cdd2.svg",
+    "static/media/sendOrder.svg": "/ZykovRuslan/react-sneakers/static/media/sendOrder.5e138b5652b45a49bd86d8ff2b975139.svg",
+    "static/media/puma-poster.webp": "/ZykovRuslan/react-sneakers/static/media/puma-poster.c51a8e8ae3691c5485d9.webp",
+    "static/media/not-order.svg": "/ZykovRuslan/react-sneakers/static/media/not-order.dbced3dc30bfbba07a62711381902307.svg",
+    "static/media/not-favorite.svg": "/ZykovRuslan/react-sneakers/static/media/not-favorite.ca2e2bdf7fbc16041501cc9065413063.svg",
+    "static/media/slick.svg": "/ZykovRuslan/react-sneakers/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/ZykovRuslan/react-sneakers/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/added.svg": "/ZykovRuslan/react-sneakers/static/media/added.890c21e6e092e231b04d7f8d3b23767a.svg",
+    "static/media/slick.ttf": "/ZykovRuslan/react-sneakers/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/like.svg": "/ZykovRuslan/react-sneakers/static/media/like.31c528b014374dd8bafb45d68779796e.svg",
+    "static/media/card-liked.svg": "/ZykovRuslan/react-sneakers/static/media/card-liked.7e0106528160a280be888f43ccd56d22.svg",
+    "static/media/slick.woff": "/ZykovRuslan/react-sneakers/static/media/slick.295183786cd8a1389865.woff",
+    "static/media/profile.svg": "/ZykovRuslan/react-sneakers/static/media/profile.2ebf808f0ba0cd79a78ce07f4602f068.svg",
+    "index.html": "/ZykovRuslan/react-sneakers/index.html",
+    "static/media/search.svg": "/ZykovRuslan/react-sneakers/static/media/search.48c52bf5d459537e27c07f88eb08c050.svg",
+    "static/media/button-delete.svg": "/ZykovRuslan/react-sneakers/static/media/button-delete.b1fef0aa93fbf25374f4991d23f900d8.svg",
+    "static/media/add-a-product.svg": "/ZykovRuslan/react-sneakers/static/media/add-a-product.0a5b02b017d3a20a6bb96668572d41bc.svg",
+    "static/media/basket.svg": "/ZykovRuslan/react-sneakers/static/media/basket.14489f79ff26527c84605ab85dd71108.svg",
+    "static/media/forth.svg": "/ZykovRuslan/react-sneakers/static/media/forth.fc3222511ec5a224a4abf3bbf4c2566f.svg",
+    "main.6d54e0a4.css.map": "/ZykovRuslan/react-sneakers/static/css/main.6d54e0a4.css.map",
+    "main.500ad68e.js.map": "/ZykovRuslan/react-sneakers/static/js/main.500ad68e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d54e0a4.css",
+    "static/js/main.500ad68e.js"
+  ]
+}

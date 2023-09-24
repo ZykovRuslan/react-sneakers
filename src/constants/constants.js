@@ -1,5 +1,0 @@
-const ANIMATION_TIME = 2000;
-
-export {
-  ANIMATION_TIME,
-};
